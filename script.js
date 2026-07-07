@@ -143,15 +143,42 @@ if (prefersReducedMotion) {
   document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
 }
 
-/* ---------- flash section trigger ---------- */
-const flashSec = document.getElementById('flashSec');
-const io2 = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) flashSec.classList.add('lit');
-    else flashSec.classList.remove('lit');
-  });
-}, { threshold: .5 });
-io2.observe(flashSec);
+/* ---------- crossfade: brackets brighten on approach, then fade into starfield in place ---------- */
+const crossfadeSec = document.getElementById('crossfadeSec');
+const flashLayer = document.getElementById('flashLayer');
+const clientsLayer = document.getElementById('clientsLayer');
+const flashGlowEl = crossfadeSec.querySelector('.flash-glow');
+const flashTextEl = crossfadeSec.querySelector('.flash-text');
+const bracketLeftEl = crossfadeSec.querySelector('.bracket-left');
+const bracketRightEl = crossfadeSec.querySelector('.bracket-right');
+
+function updateCrossfade(){
+  if (prefersReducedMotion) return; // CSS media query handles the static fallback layout
+  const rect = crossfadeSec.getBoundingClientRect();
+  const vh = window.innerHeight;
+
+  // Phase 1 — entrance: brackets brighten continuously as the section approaches the viewport
+  const entrance = Math.min(1, Math.max(0, (vh - rect.top) / vh));
+
+  // Phase 2 — pinned crossfade: once stuck at top:0, further scroll fades brackets out, starfield in
+  const scrollable = Math.max(1, rect.height - vh);
+  const pin = Math.min(1, Math.max(0, (0 - rect.top) / scrollable));
+
+  const glow = Math.min(1, entrance) * (1 - pin);
+  bracketLeftEl.style.opacity = entrance * (1 - pin);
+  bracketRightEl.style.opacity = entrance * (1 - pin);
+  bracketLeftEl.style.transform = `translateX(${(1 - entrance) * -140}px)`;
+  bracketRightEl.style.transform = `translateX(${(1 - entrance) * 140}px)`;
+  const glowBlur = 8 + entrance * 52;
+  bracketLeftEl.style.filter = `drop-shadow(0 0 ${glowBlur}px var(--yellow))`;
+  bracketRightEl.style.filter = `drop-shadow(0 0 ${glowBlur}px var(--yellow))`;
+  flashGlowEl.style.opacity = glow;
+  flashTextEl.style.opacity = entrance * (1 - pin);
+
+  flashLayer.style.opacity = 1 - pin;
+  clientsLayer.style.opacity = pin;
+}
+updateCrossfade();
 
 /* ---------- word by word reveal paragraph ---------- */
 const revealEl = document.getElementById('revealText');
@@ -210,6 +237,7 @@ function updateRevealSection(){
 let scrollTicking = false;
 function onScrollFrame(){
   updateRevealSection();
+  updateCrossfade();
   scrollTicking = false;
 }
 function requestScrollUpdate(){

@@ -500,7 +500,7 @@ const statFeature = document.getElementById('statFeature');
 
 function paintStatContent(){
   const s = statItems[statIndex];
-  statFeature.querySelector('.stat-feature-text').innerHTML = `
+  statFeature.querySelector('.stat-feature-dynamic').innerHTML = `
     <h3>${s.title}</h3>
     <p>${s.body}</p>
     <a href="#contact" class="cta">${s.cta}</a>`;
@@ -704,7 +704,7 @@ function resizeStar(){
     const depth = Math.random();
     stars.push({
       x: Math.random() * sw, y: Math.random() * sh,
-      vx: -(1.6 + depth * 4.2),           // strong right-to-left flow, speed varies by depth
+      vx: -(1.0 + depth * 2.8),           // right-to-left flow, speed varies by depth
       vy: (Math.random() - 0.5) * 0.3,     // gentle vertical drift for an organic feel
       r: 0.4 + depth * 1.6,
       a: 0.35 + depth * 0.65
@@ -750,8 +750,8 @@ function drawStar(){
     }
     // faster ("closer") stars get a subtle motion-streak trail; slower ones stay as soft dots
     const speed = Math.abs(s.vx);
-    if (speed > 2.4) {
-      const trailLen = (speed - 2) * 3.2;
+    if (speed > 1.8) {
+      const trailLen = (speed - 1.5) * 3.2;
       const grad = sctx.createLinearGradient(s.x + trailLen, s.y, s.x, s.y);
       grad.addColorStop(0, `rgba(255,255,255,0)`);
       grad.addColorStop(1, `rgba(255,255,255,${s.a})`);

@@ -296,7 +296,7 @@
   .stat-feature-text .cta:hover{background:#18181c;}
   .stat-feature-visual{display:flex;justify-content:center;}
   .dash-mock{width:100%;max-width:460px;height:auto;filter:drop-shadow(0 30px 60px rgba(0,0,0,.5));}
-  .carousel-nav{display:flex;gap:16px;justify-content:center;margin-top:56px;}
+  .carousel-nav{display:flex;gap:16px;justify-content:flex-start;margin-top:32px;}
   .carousel-nav button{
     width:42px;height:42px;border-radius:50%;border:1px solid #333;background:transparent;color:#fff;
     cursor:pointer;font-size:16px;transition:all .2s ease;

@@ -163,20 +163,24 @@ function getCrossfadeTargets(){
 
 function applyCrossfade(entrance, pin, pulse){
   pulse = pulse === undefined ? 1 : pulse;
-  const glow = Math.min(1, entrance) * (1 - pin);
-  const bracketOpacity = entrance * (1 - pin);
+  const fadeOut = 1 - pin; // 1 = brackets fully present, 0 = fully crossfaded away
+  const glow = Math.min(1, entrance) * fadeOut;
+  const bracketOpacity = entrance * fadeOut;
   bracketLeftEl.style.opacity = bracketOpacity;
   bracketRightEl.style.opacity = bracketOpacity;
   bracketLeftEl.style.transform = `translateX(${(1 - entrance) * -140}px)`;
   bracketRightEl.style.transform = `translateX(${(1 - entrance) * 140}px)`;
-  const glowBlur = (8 + entrance * 58) * pulse;
+  // blur radius must taper to 0 alongside opacity, or a soft wide shadow keeps
+  // showing faintly even once the source is almost fully transparent
+  const glowBlur = (8 + entrance * 58) * pulse * fadeOut;
   const brightness = 1 + entrance * 0.5 * pulse;
   bracketLeftEl.style.filter = `brightness(${brightness}) drop-shadow(0 0 ${glowBlur}px var(--yellow))`;
   bracketRightEl.style.filter = `brightness(${brightness}) drop-shadow(0 0 ${glowBlur}px var(--yellow))`;
   flashGlowEl.style.opacity = glow * (0.82 + 0.18 * pulse);
   flashGlowEl.style.filter = `brightness(${0.9 + 0.25 * pulse})`;
   flashTextEl.style.opacity = bracketOpacity;
-  flashLayer.style.opacity = 1 - pin;
+  flashLayer.style.opacity = fadeOut;
+  flashLayer.style.visibility = fadeOut < 0.01 ? 'hidden' : 'visible';
   clientsLayer.style.opacity = pin;
 }
 

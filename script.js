@@ -181,6 +181,7 @@ function applyCrossfade(entrance, pin, pulse){
   flashTextEl.style.opacity = bracketOpacity;
   flashLayer.style.opacity = fadeOut;
   flashLayer.style.visibility = fadeOut < 0.01 ? 'hidden' : 'visible';
+  flashLayer.style.pointerEvents = fadeOut < 0.01 ? 'none' : 'auto';
   clientsLayer.style.opacity = pin;
 }
 
@@ -272,13 +273,52 @@ requestAnimationFrame(smoothScrollLoop);
 
 /* ---------- tech stack tabs ---------- */
 const techData = {
-  lang: [['Py','PYTHON'],['J','JAVA'],['JS','JAVASCRIPT'],['C#','C SHARP'],['Sw','SWIFT'],['K','KOTLIN']],
-  fw:   [['R','REACT'],['N','NEXT.JS'],['V','VUE'],['D','DJANGO'],['S','SPRING'],['E','EXPRESS']],
-  cloud:[['AWS','AWS'],['AZ','AZURE'],['GC','GOOGLE CLOUD'],['VC','VERCEL'],['DO','DIGITALOCEAN'],['CF','CLOUDFLARE']],
-  ai:   [['TF','TENSORFLOW'],['PT','PYTORCH'],['OA','OPENAI API'],['LC','LANGCHAIN'],['HF','HUGGING FACE'],['CV','OPENCV']]
+  lang: [['python','PYTHON'],['java','JAVA'],['javascript','JAVASCRIPT'],['csharp','C SHARP'],['swift','SWIFT'],['kotlin','KOTLIN']],
+  fw:   [['react','REACT'],['nextjs','NEXT.JS'],['vue','VUE'],['django','DJANGO'],['spring','SPRING'],['express','EXPRESS']],
+  cloud:[['aws','AWS'],['azure','AZURE'],['gcp','GOOGLE CLOUD'],['vercel','VERCEL'],['digitalocean','DIGITALOCEAN'],['cloudflare','CLOUDFLARE']],
+  ai:   [['tensorflow','TENSORFLOW'],['pytorch','PYTORCH'],['openai','OPENAI API'],['langchain','LANGCHAIN'],['huggingface','HUGGING FACE'],['opencv','OPENCV']]
 };
+
+// Original, simplified colored icon marks — evoke each technology's real brand
+// palette/silhouette without tracing any company's actual trademarked artwork.
+const techIcons = {
+  python: `<svg viewBox="0 0 48 48"><path d="M24 6c-7 0-8 3-8 6v5h9v2H11c-3 0-6 2-6 8s3 8 6 8h4v-5c0-3 2-6 6-6h8c2 0 5-2 5-5V12c0-3-2-6-10-6z" fill="#4b8bbe"/><path d="M24 42c7 0 8-3 8-6v-5h-9v-2h14c3 0 6-2 6-8s-3-8-6-8h-4v5c0 3-2 6-6 6h-8c-2 0-5 2-5 5v6c0 3 2 6 10 6z" fill="#ffd43b"/><circle cx="18" cy="10" r="1.6" fill="#fff"/><circle cx="30" cy="38" r="1.6" fill="#2b2b2b"/></svg>`,
+  java: `<svg viewBox="0 0 48 48"><path d="M17 34c9 4 20 2 20-4" stroke="#5382a1" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M15 39c9 3 22 2 22-3" stroke="#5382a1" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M24 6c3 4-4 6-1 10 3 4-1 6-1 6" stroke="#e76f00" stroke-width="2.2" fill="none" stroke-linecap="round"/><ellipse cx="24" cy="24" rx="8" ry="3.2" fill="none" stroke="#5382a1" stroke-width="2"/></svg>`,
+  javascript: `<svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="6" fill="#f0db4f"/><text x="24" y="31" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#222" text-anchor="middle">JS</text></svg>`,
+  csharp: `<svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="10" fill="#2d2d30"/><text x="24" y="30" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#a179dc" text-anchor="middle">C#</text></svg>`,
+  swift: `<svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="10" fill="#f05138"/><path d="M15 15c10 2 17 9 19 19-5-2-16-6-19-19z" fill="#fff"/><path d="M13 30c5 4 12 5 17 2-6 5-15 6-21 1 2-1 3-2 4-3z" fill="#fff" opacity=".85"/></svg>`,
+  kotlin: `<svg viewBox="0 0 48 48"><defs><linearGradient id="kt" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#e44857"/><stop offset="50%" stop-color="#c711e1"/><stop offset="100%" stop-color="#7f52ff"/></linearGradient></defs><path d="M6 6h36L24 26l18 20H6V6z" fill="url(#kt)"/></svg>`,
+  react: `<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="3.4" fill="#61dafb"/><g fill="none" stroke="#61dafb" stroke-width="2"><ellipse cx="24" cy="24" rx="18" ry="7"/><ellipse cx="24" cy="24" rx="18" ry="7" transform="rotate(60 24 24)"/><ellipse cx="24" cy="24" rx="18" ry="7" transform="rotate(120 24 24)"/></g></svg>`,
+  nextjs: `<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="#000"/><path d="M17 15v18M17 15l14 18" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/><rect x="29" y="15" width="2.4" height="18" fill="#fff"/></svg>`,
+  vue: `<svg viewBox="0 0 48 48"><path d="M6 8h9l9 16 9-16h9L24 40 6 8z" fill="#41b883"/><path d="M15 8h6l3 5.2L27 8h6L24 24 15 8z" fill="#35495e"/></svg>`,
+  django: `<svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="8" fill="#092e20"/><text x="24" y="30" font-family="Georgia,serif" font-size="16" font-weight="700" fill="#44b78b" text-anchor="middle">D</text></svg>`,
+  spring: `<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="#6db33f"/><path d="M33 15c-8 8-18 9-22 18 2-1 4-1 6-1-1 3-2 5-3 7 4-2 7-5 9-8 5 1 11-1 13-6 1-4-1-7-3-10z" fill="#fff"/></svg>`,
+  express: `<svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="8" fill="#1a1a1a"/><text x="24" y="30" font-family="Georgia,serif" font-style="italic" font-size="15" font-weight="700" fill="#fff" text-anchor="middle">ex</text></svg>`,
+  aws: `<svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="8" fill="#161e2d"/><text x="24" y="26" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">aws</text><path d="M13 32c8 4 16 4 23 0" stroke="#ff9900" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M33 30l3 1-1 3" stroke="#ff9900" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  azure: `<svg viewBox="0 0 48 48"><path d="M18 6h10l-11 26h15l-21 10 9-20H10z" fill="#0089d6"/></svg>`,
+  gcp: `<svg viewBox="0 0 48 48"><path d="M24 10l7 4v9l-7 4-7-4v-9z" fill="#4285f4"/><path d="M17 23l-6 10 7 5 6-4z" fill="#ea4335"/><path d="M31 23l6 10-7 5-6-4z" fill="#34a853"/><path d="M24 10l7 4-3.5 6-3.5-2z" fill="#fbbc05"/></svg>`,
+  vercel: `<svg viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="8" fill="#000"/><path d="M24 14l12 20H12z" fill="#fff"/></svg>`,
+  digitalocean: `<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="#0080ff"/><path d="M24 32a8 8 0 1 1 0-16v8h-8" fill="#fff"/></svg>`,
+  cloudflare: `<svg viewBox="0 0 48 48"><path d="M32 30c4 0 7-3 7-7s-3-7-7-7c-1-5-5-9-11-9-5 0-9 3-11 8-4 1-7 4-7 8 0 4 3 7 7 7z" fill="#f6821f"/></svg>`,
+  tensorflow: `<svg viewBox="0 0 48 48"><path d="M6 14l18-8 18 8-9 4v20l-9 4-9-4V18z" fill="#ff6f00"/><path d="M24 6v38M6 14l18 8v20M42 14l-18 8" stroke="#fff" stroke-width="1.6" fill="none" opacity=".55"/></svg>`,
+  pytorch: `<svg viewBox="0 0 48 48"><circle cx="24" cy="27" r="12" fill="none" stroke="#ee4c2c" stroke-width="3"/><path d="M24 6v14M18 10l4 5" stroke="#ee4c2c" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`,
+  openai: `<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="#10a37f"/><path d="M24 12a6 6 0 0 1 6 6v4l4 2a6 6 0 0 1-3 11l-4-2-4 2a6 6 0 0 1-6-6v-4l-4-2a6 6 0 0 1 3-11l4 2z" fill="#fff"/></svg>`,
+  langchain: `<svg viewBox="0 0 48 48"><rect x="8" y="16" width="16" height="10" rx="5" fill="none" stroke="#1c3c34" stroke-width="3" transform="rotate(-20 16 21)"/><rect x="24" y="22" width="16" height="10" rx="5" fill="none" stroke="#3ddc84" stroke-width="3" transform="rotate(-20 32 27)"/></svg>`,
+  huggingface: `<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="18" fill="#ffd21e"/><circle cx="17" cy="21" r="2.4" fill="#2b2b2b"/><circle cx="31" cy="21" r="2.4" fill="#2b2b2b"/><path d="M16 29c3 4 13 4 16 0" stroke="#2b2b2b" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>`,
+  opencv: `<svg viewBox="0 0 48 48"><circle cx="18" cy="16" r="8" fill="none" stroke="#ee3239" stroke-width="4"/><circle cx="30" cy="16" r="8" fill="none" stroke="#6dae2b" stroke-width="4" transform="translate(0 12) rotate(120 24 24)"/><circle cx="24" cy="30" r="8" fill="none" stroke="#2a5adf" stroke-width="4" transform="rotate(240 24 24)"/></svg>`
+};
+function techIconTile(key){
+  return techIcons[key] || `<span style="font-size:13px;font-weight:700;">${key.slice(0,2).toUpperCase()}</span>`;
+}
 const techGrid = document.getElementById('techGrid');
 const tabList = document.querySelectorAll('.tab');
+
+function renderTechGrid(tab){
+  const data = techData[tab.dataset.tab];
+  techGrid.setAttribute('aria-labelledby', tab.id);
+  techGrid.innerHTML = data.map(([iconKey, n]) =>
+    `<div class="tech-card"><div class="glyph" aria-hidden="true">${techIconTile(iconKey)}</div><b>${n}</b></div>`).join('');
+}
 
 function activateTab(tab){
   tabList.forEach(t => {
@@ -290,10 +330,7 @@ function activateTab(tab){
   tab.setAttribute('aria-selected', 'true');
   tab.tabIndex = 0;
   tab.focus();
-  const data = techData[tab.dataset.tab];
-  techGrid.setAttribute('aria-labelledby', tab.id);
-  techGrid.innerHTML = data.map(([g, n]) =>
-    `<div class="tech-card"><div class="glyph" aria-hidden="true">${g}</div><b>${n}</b></div>`).join('');
+  renderTechGrid(tab);
 }
 
 tabList.forEach((tab, i) => {
@@ -309,6 +346,9 @@ tabList.forEach((tab, i) => {
     if (target) { e.preventDefault(); activateTab(target); }
   });
 });
+// paint the initially-active tab's icons immediately (grid starts empty in markup)
+const initialTab = document.querySelector('.tab.active') || tabList[0];
+if (initialTab) renderTechGrid(initialTab);
 
 /* ---------- testimonials carousel ---------- */
 const testimonials = [

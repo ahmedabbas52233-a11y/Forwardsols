@@ -13,6 +13,16 @@
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
+
+  /* ---------- purple scrollbar ---------- */
+  html{scrollbar-color:#7a3ff0 #0b0b0d;scrollbar-width:thin;}
+  ::-webkit-scrollbar{width:12px;}
+  ::-webkit-scrollbar-track{background:#0b0b0d;}
+  ::-webkit-scrollbar-thumb{
+    background:linear-gradient(180deg,#9a5cff,#6a2df0);
+    border-radius:8px;border:2px solid #0b0b0d;
+  }
+  ::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,#b07dff,#7f3dff);}
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto;}
     *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important;}
@@ -314,47 +324,49 @@
   .dash-mock{width:100%;max-width:460px;height:auto;filter:drop-shadow(0 30px 60px rgba(0,0,0,.5));}
   .carousel-nav{display:flex;gap:16px;justify-content:flex-start;margin-top:32px;}
   .carousel-nav button{
-    width:46px;height:40px;border-radius:9px;border:1.5px solid #34343a;background:#101012;color:#fff;
-    cursor:pointer;font-size:17px;font-weight:700;transition:all .2s ease;
+    width:44px;height:44px;border-radius:50%;border:none;background:#101012;color:#fff;
+    cursor:pointer;font-size:18px;font-weight:700;transition:all .2s ease;
   }
-  .carousel-nav button:hover{border-color:#666;color:#fff;}
-  .carousel-nav button:active{background:var(--blue-chip);border-color:var(--blue-chip);}
+  .carousel-nav button:hover{background:#1c1c20;}
+  .carousel-nav button:active{background:var(--blue-chip);}
 
   /* ---------- tech stack ---------- */
   .tech-sec{padding:110px 0;}
+  .coderain-sec{height:250px;position:relative;overflow:hidden;background:#000;}
+  #codeRainCanvas{position:absolute;inset:0;width:100%;height:100%;}
   .tech-sec h2{font-size:clamp(28px,3.6vw,42px);font-weight:600;}
   .tech-sec>.wrap>p{max-width:520px;color:var(--text-dim);font-size:15px;margin-top:16px;line-height:1.7;}
-  .tabs{display:flex;gap:16px;margin:50px 0 46px;flex-wrap:wrap;}
+  .tabs{display:flex;gap:34px;margin:50px 0 46px;flex-wrap:wrap;}
   .tab{
     -webkit-appearance:none;appearance:none;
-    padding:15px 28px;border-radius:10px;border:1.5px solid #34343a;background:#101012;
-    font-size:13.5px;font-weight:700;letter-spacing:.04em;cursor:pointer;color:#fff;
+    padding:11px 20px;border-radius:8px;border:1.5px solid #34343a;background:#101012;
+    font-size:12px;font-weight:700;letter-spacing:.04em;cursor:pointer;color:#fff;
     font-family:'Space Grotesk',sans-serif;transition:all .25s ease;
   }
   .tab.active{background:var(--blue-chip);border-color:var(--blue-chip);color:#fff;}
   .tech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
   .tech-card{
-    background:#0c0c0e;border:1px solid #1e1e22;border-radius:18px;padding:34px 0 22px;text-align:center;
+    background:#0c0c0e;border:1px solid #16161a;border-radius:18px;padding:34px 0 22px;text-align:center;
   }
   .tech-card .glyph{
     width:64px;height:64px;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;
-    background:#151517;border-radius:14px;font-size:26px;font-weight:700;overflow:hidden;
+    background:none;border:none;font-size:26px;font-weight:700;overflow:visible;
   }
-  .tech-card .glyph svg{width:38px;height:38px;}
+  .tech-card .glyph svg{width:52px;height:52px;}
   .tech-card .glyph img{width:38px;height:38px;object-fit:contain;}
   .tech-card b{font-size:13px;letter-spacing:.05em;color:#fff;}
 
   /* ---------- methodologies ---------- */
-  .method-sec{padding:60px 0 140px;}
-  .method-grid{display:grid;grid-template-columns:1fr 1px 1fr;}
-  .method{padding:0 60px;text-align:center;position:relative;}
-  .method svg{width:100%;max-width:340px;height:auto;margin:0 auto 30px;display:block;}
-  .method h3{font-size:19px;font-weight:600;margin-bottom:12px;color:#fff;}
-  .method p{font-size:14px;color:var(--text-dim);line-height:1.7;max-width:340px;margin:0 auto;}
-  .method-sec .method-sec-title{text-align:center;font-size:clamp(24px,3vw,32px);font-weight:600;margin-bottom:70px;}
-  .method-solo{text-align:center;margin-top:70px;}
-  .method-solo h3{font-size:19px;font-weight:600;color:#fff;}
-  .method-solo .method-solo-text{max-width:420px;margin:12px auto 0;color:var(--text-dim);font-size:14px;}
+  .method-sec{padding:60px 0 130px;}
+  .method-sec .method-sec-title{text-align:center;font-size:clamp(24px,3vw,32px);font-weight:600;margin-bottom:60px;}
+  .method-visual{max-width:780px;margin:0 auto;}
+  .method-svg{width:100%;height:auto;display:block;}
+  .method-track{opacity:.9;}
+  .method-labels{
+    display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;max-width:780px;margin:10px auto 0;text-align:center;
+  }
+  .method-label h3{font-size:18px;font-weight:600;margin-bottom:12px;color:#fff;}
+  .method-label p{font-size:13.5px;color:var(--text-dim);line-height:1.7;max-width:260px;margin:0 auto;}
 
   /* ---------- testimonials ---------- */
   .test-sec{padding:110px 0 130px;text-align:center;}
@@ -380,10 +392,11 @@
   .stars{color:#e8b830;letter-spacing:3px;font-size:15px;}
   .test-arrows{display:flex;gap:14px;justify-content:center;margin-top:24px;}
   .test-arrows button{
-    width:42px;height:38px;border-radius:9px;border:1.5px solid rgba(255,255,255,.3);background:rgba(0,0,0,.25);
-    color:#fff;cursor:pointer;font-size:16px;font-weight:700;transition:all .2s ease;
+    width:42px;height:42px;border-radius:50%;border:none;background:rgba(255,255,255,.12);
+    color:#fff;cursor:pointer;font-size:17px;font-weight:700;transition:all .2s ease;
   }
-  .test-arrows button:active{background:var(--blue-chip);border-color:var(--blue-chip);}
+  .test-arrows button:hover{background:rgba(255,255,255,.2);}
+  .test-arrows button:active{background:var(--blue-chip);}
 
   /* ---------- blogs ---------- */
   .blog-sec{padding:120px 0;}
@@ -448,9 +461,7 @@
     .stat-feature{grid-template-columns:1fr;gap:40px;}
     .stat-feature-visual{order:-1;}
     .tech-grid{grid-template-columns:repeat(2,1fr);}
-    .method-grid{grid-template-columns:1fr;}
-    .method-grid .divider{display:none;}
-    .method{margin-bottom:60px;padding:0 20px;}
+    .method-labels{grid-template-columns:1fr;gap:40px;}
     .blog-grid{grid-template-columns:repeat(2,1fr);}
     form{grid-template-columns:1fr;}
     .wrap{padding:0 22px;}

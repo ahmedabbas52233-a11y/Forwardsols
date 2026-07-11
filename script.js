@@ -234,6 +234,35 @@ if (prefersReducedMotion) {
   wordSpans.forEach(s => s.classList.add('lit'));
 }
 
+/* ---------- methodology curve: short pink comet travels start-to-end as you scroll,
+   resets whenever you scroll back above the section — purely position-driven ---------- */
+const methodSec = document.getElementById('methodSec');
+const methodFillEl = document.getElementById('methodFill');
+const METHOD_COMET_LEN = 36; // pink segment length in path units (out of 100)
+
+function getMethodTarget(){
+  if (!methodSec) return 0;
+  const rect = methodSec.getBoundingClientRect();
+  const vh = window.innerHeight;
+  // Fixed viewport-relative band near the top of the screen — independent of the
+  // section's own height, so it reliably completes within a short scroll distance.
+  const startAt = vh * 0.85; // progress 0 once section top reaches here
+  const endAt = vh * 0.15;   // progress 1 once section top reaches here
+  return Math.min(1, Math.max(0, (startAt - rect.top) / (startAt - endAt)));
+}
+function applyMethod(progress){
+  if (!methodFillEl) return;
+  // travels start -> end while progress climbs; once it actually reaches the end,
+  // it snaps back to sit at the start and holds there (not a continuous loop)
+  const displayProgress = progress >= 0.985 ? 0 : progress;
+  const travel = 100 + METHOD_COMET_LEN * 2;
+  const offset = METHOD_COMET_LEN - displayProgress * travel;
+  methodFillEl.setAttribute('stroke-dashoffset', offset.toFixed(2));
+}
+if (methodFillEl) {
+  applyMethod(prefersReducedMotion ? 1 : 0); // reduced-motion users see the resting "parked at start" state directly
+}
+
 /* ---------- continuous smoothed scroll loop ----------
    Frame-rate independent easing: the smoothing factor is normalized against
    elapsed time rather than a fixed per-frame amount, so motion feels identical
@@ -241,6 +270,7 @@ if (prefersReducedMotion) {
 let smoothedReveal = 0;
 let smoothedEntrance = 0;
 let smoothedPin = 0;
+let smoothedMethod = 0;
 const SMOOTHING = 0.16; // portion of remaining distance closed per ~16.7ms frame
 let lastFrameTime = performance.now();
 
@@ -264,6 +294,11 @@ function smoothScrollLoop(now){
     // rather than a flat, static wash of yellow
     const pulse = 0.88 + 0.12 * Math.sin(now / 900);
     applyCrossfade(smoothedEntrance, smoothedPin, pulse);
+
+    const methodTarget = getMethodTarget();
+    smoothedMethod += (methodTarget - smoothedMethod) * k;
+    if (Math.abs(methodTarget - smoothedMethod) < 0.0005) smoothedMethod = methodTarget;
+    applyMethod(smoothedMethod);
   }
   requestAnimationFrame(smoothScrollLoop);
 }
@@ -620,6 +655,49 @@ function makeVisibilityAware(canvas, startLoop, stopLoop){
     document.hidden ? stopLoop() : startLoop();
   });
 }
+
+/* ---------- code-texture band: static dense pink/magenta vertical streaks ----------
+   Not an animation — a fixed decorative texture, drawn once and left alone. */
+(function initCodeTexture(){
+  const canvas = document.getElementById('codeRainCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const fontSize = 11; // small, dense characters — a texture, not big falling letters
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$#%&@+=-<>/\\';
+
+  function paint(){
+    const w = canvas.clientWidth || canvas.offsetWidth;
+    const h = canvas.clientHeight || canvas.offsetHeight;
+    if (!w || !h) return;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, w, h);
+    ctx.font = `${fontSize}px monospace`;
+    const colGap = fontSize * 0.9; // tightly packed columns for a dense texture
+    const rowGap = fontSize * 1.05;
+    const cols = Math.ceil(w / colGap);
+    const rows = Math.ceil(h / rowGap);
+    for (let c = 0; c < cols; c++) {
+      const x = c * colGap;
+      // each column gets its own random brightness band so some streaks read
+      // brighter than neighbors, like the reference texture
+      const colBrightness = 0.25 + Math.random() * 0.55;
+      for (let r = 0; r < rows; r++) {
+        const y = r * rowGap + fontSize;
+        const flicker = colBrightness * (0.5 + Math.random() * 0.5);
+        ctx.fillStyle = `rgba(224,40,150,${flicker.toFixed(2)})`;
+        ctx.fillText(chars[(Math.random() * chars.length) | 0], x, y);
+      }
+    }
+  }
+
+  paint();
+  window.addEventListener('resize', paint, { passive: true });
+  window.addEventListener('load', paint); // repaint once fonts/layout are fully settled
+})();
 
 /* ---------- hero network canvas ---------- */
 const netCanvas = document.getElementById('netCanvas');

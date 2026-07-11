@@ -249,8 +249,8 @@
           <a href="#contact" class="cta">Get Your Free Valuation Report →</a>
         </div>
         <div class="carousel-nav">
-          <button type="button" id="statPrev" class="corner-frame" aria-label="Previous stat">&#8249;<span class="cf-tl"></span><span class="cf-tr"></span><span class="cf-bl"></span><span class="cf-br"></span></button>
-          <button type="button" id="statNext" class="corner-frame" aria-label="Next stat">&#8250;<span class="cf-tl"></span><span class="cf-tr"></span><span class="cf-bl"></span><span class="cf-br"></span></button>
+          <button type="button" id="statPrev" aria-label="Previous stat">&#8249;</button>
+          <button type="button" id="statNext" aria-label="Next stat">&#8250;</button>
         </div>
       </div>
       <div class="stat-feature-visual">
@@ -293,25 +293,35 @@
   </div>
 </section>
 
-<section class="method-sec">
+<section class="coderain-sec" aria-hidden="true">
+  <canvas id="codeRainCanvas"></canvas>
+</section>
+
+<section class="method-sec" id="methodSec">
   <div class="wrap">
     <h2 class="method-sec-title">Our Methodologies</h2>
-    <div class="method-grid">
-      <div class="method fade-up">
-        <svg viewBox="0 0 340 140" aria-hidden="true"><path d="M10 10 Q10 130 170 130" stroke="#e73a5a" stroke-width="34" fill="none" stroke-linecap="round"/><circle cx="60" cy="118" r="4" fill="none" stroke="#888"/><line x1="60" y1="118" x2="60" y2="140" stroke="#888"/></svg>
+    <div class="method-visual">
+      <svg viewBox="0 0 900 240" aria-hidden="true" class="method-svg">
+        <path class="method-track" d="M55,205 C205,205 235,20 450,20 C665,20 695,205 845,205" stroke="#2c2c30" stroke-width="34" fill="none" stroke-linecap="round"/>
+        <path class="method-fill" id="methodFill" d="M55,205 C205,205 235,20 450,20 C665,20 695,205 845,205" stroke="#e73a5a" stroke-width="34" fill="none" stroke-linecap="round" pathLength="100" stroke-dasharray="36 1000" stroke-dashoffset="36"/>
+        <circle cx="128" cy="192" r="3.5" fill="none" stroke="#888"/><line x1="128" y1="192" x2="128" y2="240" stroke="#888"/>
+        <circle cx="450" cy="20" r="3.5" fill="none" stroke="#888"/><line x1="450" y1="20" x2="450" y2="240" stroke="#888"/>
+        <circle cx="772" cy="192" r="3.5" fill="none" stroke="#888"/><line x1="772" y1="192" x2="772" y2="240" stroke="#888"/>
+      </svg>
+    </div>
+    <div class="method-labels">
+      <div class="method-label fade-up">
         <h3>Agile Development</h3>
         <p>We quickly adapt to changes through multiple loops, consistently delivering high-value results.</p>
       </div>
-      <div class="divider"></div>
-      <div class="method fade-up">
-        <svg viewBox="0 0 340 140" aria-hidden="true"><path d="M330 10 Q330 130 170 130" stroke="#3a3a3f" stroke-width="34" fill="none" stroke-linecap="round"/><circle cx="280" cy="118" r="4" fill="none" stroke="#888"/><line x1="280" y1="118" x2="280" y2="140" stroke="#888"/></svg>
+      <div class="method-label fade-up">
+        <h3>Design Thinking</h3>
+        <p>We prioritise a user-focused approach, creating innovative solutions that effectively meet client needs.</p>
+      </div>
+      <div class="method-label fade-up">
         <h3>DevOps</h3>
         <p>Our continuous integration and deployment practices ensure rapid and reliable software releases.</p>
       </div>
-    </div>
-    <div class="method-solo fade-up">
-      <h3>Design Thinking</h3>
-      <p class="method-solo-text">We prioritise a user-focused approach, creating innovative solutions that effectively meet client needs.</p>
     </div>
   </div>
 </section>
@@ -329,7 +339,7 @@
         <div class="stars">★★★★★</div>
       </div>
     </div>
-    <div class="test-arrows"><button type="button" id="tPrev" class="corner-frame" aria-label="Previous testimonial">&#8249;<span class="cf-tl"></span><span class="cf-tr"></span><span class="cf-bl"></span><span class="cf-br"></span></button><button type="button" id="tNext" class="corner-frame" aria-label="Next testimonial">&#8250;<span class="cf-tl"></span><span class="cf-tr"></span><span class="cf-bl"></span><span class="cf-br"></span></button></div>
+    <div class="test-arrows"><button type="button" id="tPrev" aria-label="Previous testimonial">&#8249;</button><button type="button" id="tNext" aria-label="Next testimonial">&#8250;</button></div>
   </div>
 </section>
 

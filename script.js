@@ -405,6 +405,7 @@ function paintTestContent(){
 }
 
 function renderTestimonial(direction){
+  if (prefersReducedMotion) { paintTestContent(); return; } // advance instantly, no slide/fade motion
   const dir = direction === 'prev' ? -1 : 1;
   testCard.style.transition = 'opacity .35s ease, transform .35s ease';
   testCard.style.opacity = '0';
@@ -429,7 +430,6 @@ function goToTestimonial(newIndex, direction){
 }
 function restartTestAutoplay(){
   if (tAutoTimer) clearInterval(tAutoTimer);
-  if (prefersReducedMotion) return;
   tAutoTimer = setInterval(() => {
     tIndex = (tIndex + 1) % testimonials.length;
     renderTestimonial('next');
@@ -588,6 +588,7 @@ function paintStatContent(){
 paintStatContent(); // sync the initial static markup with the new mockup style immediately
 
 function renderStat(direction){
+  if (prefersReducedMotion) { paintStatContent(); return; } // advance instantly, no slide/fade motion
   const textEl = statFeature.querySelector('.stat-feature-text');
   const dashEl = statFeature.querySelector('.dash-mock');
   const dir = direction === 'prev' ? -1 : 1;
@@ -628,7 +629,6 @@ function goToStat(newIndex, direction){
 }
 function restartStatAutoplay(){
   if (statAutoTimer) clearInterval(statAutoTimer);
-  if (prefersReducedMotion) return;
   statAutoTimer = setInterval(() => {
     statIndex = (statIndex + 1) % statItems.length;
     renderStat('next');

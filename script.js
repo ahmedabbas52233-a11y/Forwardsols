@@ -245,9 +245,10 @@ function getMethodTarget(){
   const rect = methodSec.getBoundingClientRect();
   const vh = window.innerHeight;
   // Fixed viewport-relative band near the top of the screen — independent of the
-  // section's own height, so it reliably completes within a short scroll distance.
-  const startAt = vh * 0.85; // progress 0 once section top reaches here
-  const endAt = vh * 0.15;   // progress 1 once section top reaches here
+  // section's own height. Widened vs before so the comet travels more slowly
+  // relative to scroll distance (less snappy, more gradual).
+  const startAt = vh * 1.05; // progress 0 once section top reaches here
+  const endAt = vh * -0.35;  // progress 1 once section top reaches here
   return Math.min(1, Math.max(0, (startAt - rect.top) / (startAt - endAt)));
 }
 function applyMethod(progress){
@@ -894,3 +895,35 @@ window.addEventListener('resize', resizeStar, { passive: true });
 resizeStar();
 if (prefersReducedMotion) { drawStar(); stopStarLoop(); } else { startStarLoop(); }
 makeVisibilityAware(starCanvas, startStarLoop, stopStarLoop);
+
+/* ---------- cursor-follower ring: visible only over the carousel/"slide" sections ---------- */
+(function initSlideCursor(){
+  const cursor = document.getElementById('slideCursor');
+  if (!cursor || prefersReducedMotion) return;
+  const zones = [document.getElementById('statsSec'), document.querySelector('.test-sec')].filter(Boolean);
+  let targetX = 0, targetY = 0, curX = 0, curY = 0, active = false, raf = null;
+
+  function onMove(e){
+    targetX = e.clientX; targetY = e.clientY;
+    if (!raf) raf = requestAnimationFrame(loop);
+  }
+  function loop(){
+    curX += (targetX - curX) * 0.25;
+    curY += (targetY - curY) * 0.25;
+    cursor.style.transform = `translate(${curX}px, ${curY}px) translate(-50%,-50%)`;
+    raf = active ? requestAnimationFrame(loop) : null;
+  }
+  zones.forEach(zone => {
+    zone.addEventListener('mouseenter', (e) => {
+      active = true;
+      curX = targetX = e.clientX; curY = targetY = e.clientY;
+      cursor.classList.add('visible');
+      if (!raf) raf = requestAnimationFrame(loop);
+    });
+    zone.addEventListener('mouseleave', () => {
+      active = false;
+      cursor.classList.remove('visible');
+    });
+    zone.addEventListener('mousemove', onMove, { passive: true });
+  });
+})();

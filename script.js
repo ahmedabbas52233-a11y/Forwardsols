@@ -62,12 +62,17 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
   window.addEventListener('resize', resize, { passive: true });
   resize(); draw();
 
+  // trigger the logo wipe + bar fill shortly after mount (a tiny delay so the
+  // clip-path transition is guaranteed to actually animate rather than start
+  // already-applied before the browser's first paint)
+  requestAnimationFrame(() => requestAnimationFrame(() => preloader.classList.add('reveal')));
+
   function dismiss(){
     preloader.classList.add('done');
     if (raf) cancelAnimationFrame(raf);
     setTimeout(() => preloader.remove(), 700);
   }
-  const minDelay = prefersReducedMotion ? 200 : 1500;
+  const minDelay = prefersReducedMotion ? 200 : 1700;
   const start = Date.now();
   window.addEventListener('load', () => {
     const elapsed = Date.now() - start;
@@ -238,7 +243,7 @@ if (prefersReducedMotion) {
    resets whenever you scroll back above the section — purely position-driven ---------- */
 const methodSec = document.getElementById('methodSec');
 const methodFillEl = document.getElementById('methodFill');
-const METHOD_COMET_LEN = 36; // pink segment length in path units (out of 100)
+const METHOD_COMET_LEN = 16; // pink segment length in path units (out of 100) — shortened
 
 function getMethodTarget(){
   if (!methodSec) return 0;

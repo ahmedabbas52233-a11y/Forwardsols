@@ -1,0 +1,445 @@
+/* ---------- render: the entire page body is injected via JavaScript ---------- */
+(function renderApp(){
+  const root = document.getElementById('app-root');
+  if (!root) return;
+  root.innerHTML = `
+
+<div class="preloader" id="preloader" role="status" aria-label="Loading">
+  <canvas id="preloadStars" aria-hidden="true"></canvas>
+  <div class="preload-logo-wipe" id="preloadLogoWipe">
+    <div class="preload-logo">
+      FOR
+      <svg viewBox="0 0 60 24" fill="none" aria-hidden="true"><path d="M2 4 Q 10 4 15 12 T 30 12 T 45 12 T 58 4" stroke="white" stroke-width="4.2" stroke-linecap="round"/></svg>
+      RD
+    </div>
+  </div>
+  <div class="preload-bar" id="preloadBar"></div>
+</div>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header>
+  <nav>
+    <div class="logo">
+      FOR
+      <svg viewBox="0 0 60 24" fill="none" aria-hidden="true"><path d="M2 4 Q 10 4 15 12 T 30 12 T 45 12 T 58 4" stroke="white" stroke-width="4.2" stroke-linecap="round"/></svg>
+      RD
+    </div>
+    <button type="button" class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links">
+      <div class="nav-item" data-menu="services">
+        <button type="button" class="nav-trigger" aria-haspopup="true" aria-expanded="false" aria-controls="mega-services">Services
+          <svg viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+        </button>
+        <div class="mega" id="mega-services">
+          <div class="mega-col">
+            <h4>Development</h4>
+            <div class="mega-item"><span class="ic" aria-hidden="true">◆</span><div><b>Web &amp; Mobile</b><span>Custom builds</span></div></div>
+            <div class="mega-item"><span class="ic" aria-hidden="true">◆</span><div><b>AI Integration</b><span>Smart automation</span></div></div>
+          </div>
+          <div class="mega-col">
+            <h4>Growth</h4>
+            <div class="mega-item"><span class="ic" aria-hidden="true">◆</span><div><b>SEO</b><span>Organic visibility</span></div></div>
+            <div class="mega-item"><span class="ic" aria-hidden="true">◆</span><div><b>Paid Ads</b><span>Performance media</span></div></div>
+          </div>
+          <div class="mega-col">
+            <h4>Support</h4>
+            <div class="mega-item"><span class="ic" aria-hidden="true">◆</span><div><b>Maintenance</b><span>Ongoing care</span></div></div>
+            <div class="mega-item"><span class="ic" aria-hidden="true">◆</span><div><b>Consulting</b><span>Strategy sessions</span></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-item" data-menu="marketing">
+        <button type="button" class="nav-trigger" aria-haspopup="true" aria-expanded="false" aria-controls="mega-marketing">Marketing
+          <svg viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+        </button>
+        <div class="mega mega-2col" id="mega-marketing">
+          <div class="mega-col">
+            <h4>Channels</h4>
+            <div class="mega-item"><span class="ic" aria-hidden="true">◆</span><div><b>Google Ads</b><span>Search &amp; display</span></div></div>
+            <div class="mega-item"><span class="ic" aria-hidden="true">◆</span><div><b>Social Media</b><span>Brand presence</span></div></div>
+          </div>
+          <div class="mega-col">
+            <h4>Insights</h4>
+            <div class="mega-item"><span class="ic" aria-hidden="true">◆</span><div><b>Analytics</b><span>Data reporting</span></div></div>
+            <div class="mega-item"><span class="ic" aria-hidden="true">◆</span><div><b>Local Search</b><span>Map visibility</span></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-item" data-menu="biz">
+        <button type="button" class="nav-trigger" aria-haspopup="true" aria-expanded="false" aria-controls="mega-biz">Business Servicing
+          <svg viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+        </button>
+        <div class="mega mega-2col" id="mega-biz">
+          <div class="mega-col">
+            <h4>Operations</h4>
+            <div class="mega-item"><span class="ic" aria-hidden="true">◆</span><div><b>Custom Software</b><span>Streamlined tools</span></div></div>
+            <div class="mega-item"><span class="ic" aria-hidden="true">◆</span><div><b>Valuation Report</b><span>Free analysis</span></div></div>
+          </div>
+          <div class="mega-col">
+            <h4>Monitoring</h4>
+            <div class="mega-item"><span class="ic" aria-hidden="true">◆</span><div><b>Speed Test</b><span>Site performance</span></div></div>
+            <div class="mega-item"><span class="ic" aria-hidden="true">◆</span><div><b>SEO Audit</b><span>Ranking review</span></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-item" data-menu="about">
+        <button type="button" class="nav-trigger" aria-haspopup="true" aria-expanded="false" aria-controls="mega-about">About
+          <svg viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+        </button>
+        <div class="mega" id="mega-about">
+          <div class="mega-col">
+            <h4>About Us</h4>
+            <div class="mega-item"><span class="ic" aria-hidden="true">◇</span><div><b>Who we are</b><span>Our story</span></div></div>
+            <div class="mega-item"><span class="ic" aria-hidden="true">◇</span><div><b>Packages</b><span>Our offerings</span></div></div>
+            <div class="mega-item"><span class="ic" aria-hidden="true">◇</span><div><b>Our Team</b><span>Meet us</span></div></div>
+            <div class="mega-item"><span class="ic" aria-hidden="true">◇</span><div><b>Blogs</b><span>Insights &amp; updates</span></div></div>
+          </div>
+          <div class="mega-col">
+            <h4>Careers</h4>
+            <div class="mega-item"><span class="ic" aria-hidden="true">◇</span><div><b>Meet OUR LEAD</b><span>Our CEO</span></div></div>
+            <div class="mega-item"><span class="ic" aria-hidden="true">◇</span><div><b>Portfolio</b><span>Our work</span></div></div>
+            <div class="mega-item"><span class="ic" aria-hidden="true">◇</span><div><b>FAQs</b><span>Get answers</span></div></div>
+          </div>
+          <div class="mega-col">
+            <h4>Values</h4>
+            <div class="mega-item"><span class="ic" aria-hidden="true">◇</span><div><b>How it works</b><span>Our process</span></div></div>
+            <div class="mega-item"><span class="ic" aria-hidden="true">◇</span><div><b>Courses</b><span>Our courses</span></div></div>
+            <div class="mega-item"><span class="ic" aria-hidden="true">◇</span><div><b>We are hiring!</b><span>Careers</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="button" class="bracket-btn">BOOK A DEMO</button>
+  </nav>
+</header>
+
+<div class="mobile-nav" id="mobileNav" aria-hidden="true">
+  <ul>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#services">Marketing</a></li>
+    <li><a href="#edge">Business Servicing</a></li>
+    <li><a href="#services">About</a></li>
+  </ul>
+  <button type="button" class="bracket-btn mobile-demo-btn">BOOK A DEMO</button>
+</div>
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
+<main id="main">
+<section class="hero">
+  <canvas id="netCanvas" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <h1>Transform Your Business with<br>Expert IT Solutions</h1>
+    <p>ForwardSols delivers <b>AI-driven web development, SEO, &amp; digital marketing services</b> to help startups and enterprises scale faster.</p>
+  </div>
+</section>
+
+<section class="reveal-sec" id="revealSec">
+  <div class="reveal-word reveal-word-top" aria-hidden="true">About</div>
+  <div class="reveal-word reveal-word-bottom" aria-hidden="true">About</div>
+  <div class="wrap">
+    <p id="revealText">ForwardSols transforms businesses with AI-powered tech solutions that drive real growth. We engineer intelligent systems to automate, optimize, and scale your operations — delivering measurable results from day one. Let's future-proof your business together.</p>
+  </div>
+</section>
+
+<section id="services">
+  <h2 class="services-title fade-up">Our Services</h2>
+  <div class="sec-num fade-up">
+    <div class="connector"><div class="dot"></div></div>
+    <div class="tag">[ 01 ]</div>
+    <h2>Solutions We Deliver</h2>
+    <p>At ForwardSols, we engineer high-impact IT and digital marketing solutions to drive growth, enhance visibility, and maximize ROI for businesses worldwide. Our integrated approach combines AI-powered development, data-driven marketing, and scalable infrastructure to future-proof your business.</p>
+  </div>
+
+  <div class="card-row">
+    <div class="card-col">
+      <div class="scard fade-up">
+        <svg class="icon" viewBox="0 0 64 64" fill="none" aria-hidden="true"><rect x="16" y="16" width="32" height="32" rx="4" stroke="#8b8bf0" stroke-width="1.6" transform="rotate(10 32 32)"/><circle cx="30" cy="34" r="10" fill="url(#g1)"/><defs><radialGradient id="g1" cx="0.3" cy="0.3" r="0.8"><stop offset="0%" stop-color="#c9a8ff"/><stop offset="60%" stop-color="#5b6bff"/><stop offset="100%" stop-color="#1c2470"/></radialGradient></defs></svg>
+        <h3>AI-Powered Solutions</h3>
+        <p>AI-Optimized Solutions: Our expert AI engineers utilize machine learning to create customized, data-driven solutions that outperform traditional methods and improve efficiency.</p>
+      </div>
+      <div class="scard fade-up">
+        <svg class="icon" viewBox="0 0 64 64" fill="none" aria-hidden="true"><rect x="16" y="16" width="32" height="32" rx="4" stroke="#8b8bf0" stroke-width="1.6" transform="rotate(10 32 32)"/><path d="M32 24 L44 42 L20 42 Z" fill="url(#g2)"/><defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c9e8ff"/><stop offset="55%" stop-color="#5b6bff"/><stop offset="100%" stop-color="#2a1c70"/></linearGradient></defs></svg>
+        <h3>Performance Marketing</h3>
+        <p>Precision-Targeted Ads: Clients average 300% ROI on ad spend with our AI-optimized campaigns and 70% lower cost per lead.</p>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="card-col">
+      <div class="scard fade-up">
+        <svg class="icon" viewBox="0 0 64 64" fill="none" aria-hidden="true"><circle cx="26" cy="26" r="13" fill="#3c7bff" opacity="0.9"/><path d="M20 44c4-8 20-8 24 0" stroke="#bcd2ff" stroke-width="1.6" fill="none"/><rect x="16" y="40" width="20" height="14" rx="2" stroke="#bcd2ff" stroke-width="1.4"/></svg>
+        <h3>Web &amp; Mobile Application Development</h3>
+        <p>Build Smarter Digital Experiences: We create conversion-optimized websites with integrated AI tools to boost engagement by 200%.</p>
+      </div>
+    </div>
+  </div>
+  <p class="foot-line fade-up">ForwardSols is ISO-certified and trusted by 100+ global clients. Our accreditations reflect our commitment to cutting-edge technology and measurable results.</p>
+</section>
+
+<section id="edge">
+  <div class="sec-num fade-up">
+    <div class="connector"><div class="dot"></div></div>
+    <div class="tag">[ 02 ]</div>
+    <h2>Our Competitive Edge</h2>
+    <p>ForwardSols specializes in transforming businesses through technology. Here's how we solve critical pain points:</p>
+  </div>
+  <div class="card-row">
+    <div class="card-col">
+      <div class="scard fade-up">
+        <svg class="icon" viewBox="0 0 64 64" fill="none" aria-hidden="true"><rect x="14" y="18" width="36" height="28" rx="4" stroke="#9d7bff" stroke-width="1.6"/><path d="M14 26h36" stroke="#9d7bff" stroke-width="1.6"/><circle cx="21" cy="22" r="1.6" fill="#9d7bff"/><circle cx="27" cy="22" r="1.6" fill="#9d7bff"/></svg>
+        <h3>Custom Software</h3>
+        <p>Streamline Operations: Our scalable solutions reduce IT costs by 30% and improve system efficiency by 50% with automated workflows.</p>
+      </div>
+      <div class="scard fade-up">
+        <svg class="icon" viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M14 46 L26 30 L36 38 L50 18" stroke="#e73a5a" stroke-width="2" fill="none"/><path d="M42 18h8v8" stroke="#e73a5a" stroke-width="2" fill="none"/></svg>
+        <h3>Wasted Ad Spend</h3>
+        <p>Stop Burning Budgets: Our AI-driven paid marketing cuts wasted spend by 80% while tripling conversion rates for measurable ROI.</p>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="card-col">
+      <div class="scard fade-up">
+        <svg class="icon" viewBox="0 0 64 64" fill="none" aria-hidden="true"><circle cx="30" cy="30" r="16" stroke="#4fd1ff" stroke-width="1.6"/><circle cx="30" cy="30" r="4" fill="#4fd1ff"/><circle cx="12" cy="16" r="1.8" fill="#4fd1ff"/><circle cx="48" cy="14" r="1.8" fill="#4fd1ff"/><circle cx="52" cy="34" r="1.8" fill="#4fd1ff"/><circle cx="14" cy="42" r="1.8" fill="#4fd1ff"/></svg>
+        <h3>Low Online Visibility</h3>
+        <p>From Invisible to Dominant: Our organic growth strategies increase search rankings by 150% and qualified traffic by 120% in 90 days.</p>
+      </div>
+    </div>
+  </div>
+  <p class="foot-line fade-up">ForwardSols clients see 200% higher ROI and 150% more revenue within 12 months. We merge technical expertise with growth hacking to unlock your digital potential. Partner with us to future-proof your business with AI, automation, and proven marketing strategies.</p>
+</section>
+
+<section class="crossfade-sec" id="crossfadeSec">
+  <div class="crossfade-sticky">
+    <div class="flash-layer" id="flashLayer">
+      <div class="flash-glow"></div>
+      <div class="brackets" aria-hidden="true">
+        <svg class="bracket-left" viewBox="0 0 40 60" fill="none"><path d="M32 6 C18 6 18 22 24 30 C18 38 18 54 32 54" stroke-width="6" stroke-linecap="round" fill="none"/></svg>
+        <svg class="bracket-right" viewBox="0 0 40 60" fill="none"><path d="M8 6 C22 6 22 22 16 30 C22 38 22 54 8 54" stroke-width="6" stroke-linecap="round" fill="none"/></svg>
+      </div>
+      <div class="flash-text">We have worked with<br>some of the biggest names in USA</div>
+    </div>
+    <div class="clients-layer" id="clientsLayer">
+      <canvas id="starCanvas" aria-hidden="true"></canvas>
+      <div class="clients-inner wrap">
+        <div class="client-grid">
+          <div class="client-box"><span class="bl"></span><span class="br"></span><div class="mark"><svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M4 8h32M4 16h32M4 24h32M4 32h20" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg></div><b>Quality Blinds &amp; Shades</b></div>
+          <div class="client-box"><span class="bl"></span><span class="br"></span><div class="mark"><svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M20 6c-4 0-6 3-6 7 0 5 3 8 6 12 3-4 6-7 6-12 0-4-2-7-6-7z" stroke="#fff" stroke-width="2.2"/><circle cx="20" cy="13" r="2.2" fill="#fff"/><path d="M14 34c2-4 4-6 6-6s4 2 6 6" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg></div><b>Pert Pert Guys</b></div>
+          <div class="client-box"><span class="bl"></span><span class="br"></span><div class="mark"><svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M20 4a16 16 0 0 1 11 27" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M20 36a16 16 0 0 1-11-27" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="20" r="4" fill="#fff"/></svg></div><b>Kinetic By Windstream</b></div>
+          <div class="client-box"><span class="bl"></span><span class="br"></span><div class="mark"><svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><g stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M20 4v10M20 26v10M4 20h10M26 20h10M8 8l7 7M25 25l7 7M32 8l-7 7M15 25l-7 7"/></g></svg></div><b>CenturyLink</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stats-sec" id="statsSec">
+  <div class="wrap">
+    <h2>Your Business Statistics Turn Your Decisions to Profit</h2>
+    <div class="stat-feature" id="statFeature" aria-live="polite">
+      <div class="stat-feature-text">
+        <div class="stat-feature-dynamic">
+          <h3>Real-Time Market Valuation Intelligence</h3>
+          <p>Track your business's financial health with AI-driven market analytics. Our platform monitors 17+ valuation metrics (including EBITDA multiples and industry benchmarks) to help you make data-backed decisions, attract investors, and outperform competitors.</p>
+          <a href="#contact" class="cta">Get Your Free Valuation Report →</a>
+        </div>
+        <div class="carousel-nav">
+          <button type="button" id="statPrev" aria-label="Previous stat">&#8249;</button>
+          <button type="button" id="statNext" aria-label="Next stat">&#8250;</button>
+        </div>
+      </div>
+      <div class="stat-feature-visual">
+        <svg viewBox="0 0 460 300" aria-hidden="true" class="dash-mock">
+          <rect x="0" y="0" width="460" height="300" rx="14" fill="#0d0d10"/>
+          <rect x="0" y="0" width="460" height="34" rx="14" fill="#151519"/>
+          <circle cx="20" cy="17" r="4" fill="#e04b4b"/><circle cx="34" cy="17" r="4" fill="#e0b84b"/><circle cx="48" cy="17" r="4" fill="#4be07a"/>
+          <rect x="26" y="56" width="140" height="10" rx="3" fill="#2a2a30"/>
+          <rect x="26" y="76" width="90" height="8" rx="3" fill="#1e1e24"/>
+          <g>
+            <rect x="26" y="120" width="26" height="130" rx="3" fill="#3c7bff"/>
+            <rect x="62" y="150" width="26" height="100" rx="3" fill="#2a2a30"/>
+            <rect x="98" y="100" width="26" height="150" rx="3" fill="#3c7bff"/>
+            <rect x="134" y="170" width="26" height="80" rx="3" fill="#2a2a30"/>
+            <rect x="170" y="130" width="26" height="120" rx="3" fill="#3c7bff"/>
+          </g>
+          <rect x="230" y="56" width="204" height="194" rx="10" fill="#131316"/>
+          <circle cx="332" cy="150" r="70" fill="none" stroke="#2a2a30" stroke-width="16"/>
+          <circle cx="332" cy="150" r="70" fill="none" stroke="#3c7bff" stroke-width="16" stroke-dasharray="320" stroke-dashoffset="90" stroke-linecap="round" transform="rotate(-90 332 150)"/>
+          <text x="332" y="158" text-anchor="middle" font-family="Space Grotesk" font-size="26" fill="#fff" font-weight="700">72%</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tech-sec">
+  <div class="wrap">
+    <h2>Technologies We Use</h2>
+    <p>ForwardSols integrates a mix of technologies to deliver top-tier solutions for our clients. Our technology toolkit features</p>
+    <div class="tabs" role="tablist" aria-label="Technology categories">
+      <button type="button" class="tab corner-frame active" role="tab" id="tab-lang" aria-selected="true" aria-controls="techGrid" data-tab="lang">Programming Languages<span class="cf-tl"></span><span class="cf-tr"></span><span class="cf-bl"></span><span class="cf-br"></span></button>
+      <button type="button" class="tab corner-frame" role="tab" id="tab-fw" aria-selected="false" aria-controls="techGrid" data-tab="fw">Frameworks<span class="cf-tl"></span><span class="cf-tr"></span><span class="cf-bl"></span><span class="cf-br"></span></button>
+      <button type="button" class="tab corner-frame" role="tab" id="tab-cloud" aria-selected="false" aria-controls="techGrid" data-tab="cloud">Cloud Platforms<span class="cf-tl"></span><span class="cf-tr"></span><span class="cf-bl"></span><span class="cf-br"></span></button>
+      <button type="button" class="tab corner-frame" role="tab" id="tab-ai" aria-selected="false" aria-controls="techGrid" data-tab="ai">AI &amp; Machine Learning<span class="cf-tl"></span><span class="cf-tr"></span><span class="cf-bl"></span><span class="cf-br"></span></button>
+    </div>
+    <div class="tech-grid" id="techGrid" role="tabpanel" aria-labelledby="tab-lang" tabindex="0">
+      
+    </div>
+  </div>
+</section>
+
+<section class="coderain-sec" aria-hidden="true">
+  <canvas id="codeRainCanvas"></canvas>
+</section>
+
+<section class="method-sec" id="methodSec">
+  <svg class="method-sidebar side-left" viewBox="0 0 40 300" aria-hidden="true"><path d="M20 10 L20 100 M12 100 L28 100 M20 100 L20 290" stroke="#26262a" stroke-width="2" fill="none"/><circle cx="20" cy="100" r="5" fill="none" stroke="#3a3a3f" stroke-width="2"/></svg>
+  <svg class="method-sidebar side-right" viewBox="0 0 40 300" aria-hidden="true"><path d="M20 10 L20 100 M12 100 L28 100 M20 100 L20 290" stroke="#26262a" stroke-width="2" fill="none"/><circle cx="20" cy="100" r="5" fill="none" stroke="#3a3a3f" stroke-width="2"/></svg>
+  <div class="wrap">
+    <h2 class="method-sec-title">Our Methodologies</h2>
+    <div class="method-visual">
+      <svg viewBox="0 0 1100 480" aria-hidden="true" class="method-svg">
+        <path class="method-track" d="M65,340 C245,340 285,10 550,10 C815,10 855,340 1035,340" stroke="#2c2c30" stroke-width="64" fill="none" stroke-linecap="round"/>
+        <path class="method-fill" id="methodFill" d="M65,340 C245,340 285,10 550,10 C815,10 855,340 1035,340" stroke="#e73a5a" stroke-width="82" fill="none" stroke-linecap="round" pathLength="100" stroke-dasharray="16 1000" stroke-dashoffset="16"/>
+        <circle cx="150" cy="318" r="3.5" fill="none" stroke="#fff"/><line x1="150" y1="318" x2="150" y2="360" stroke="#fff"/>
+        <circle cx="550" cy="10" r="7" fill="none" stroke="#fff" stroke-width="1.4"/>
+        <circle cx="945" cy="318" r="3.5" fill="none" stroke="#fff"/><line x1="945" y1="318" x2="945" y2="360" stroke="#fff"/>
+      </svg>
+    </div>
+    <div class="method-labels">
+      <div class="method-label fade-up">
+        <h3>Agile Development</h3>
+        <p>We quickly adapt to changes through multiple loops, consistently delivering high-value results.</p>
+      </div>
+      <div class="method-label fade-up">
+        <h3>Design Thinking</h3>
+        <p>We prioritise a user-focused approach, creating innovative solutions that effectively meet client needs.</p>
+      </div>
+      <div class="method-label fade-up">
+        <h3>DevOps</h3>
+        <p>Our continuous integration and deployment practices ensure rapid and reliable software releases.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="test-sec">
+  <div class="test-bg"></div>
+  <svg class="test-corner tc-tl" viewBox="0 0 30 30" aria-hidden="true"><path d="M2 20 Q2 2 20 2" stroke="#ddd" stroke-width="1.6" fill="none"/></svg>
+  <svg class="test-corner tc-tr" viewBox="0 0 30 30" aria-hidden="true"><path d="M28 20 Q28 2 10 2" stroke="#ddd" stroke-width="1.6" fill="none"/></svg>
+  <svg class="test-corner tc-bl" viewBox="0 0 30 30" aria-hidden="true"><path d="M2 10 Q2 28 20 28" stroke="#ddd" stroke-width="1.6" fill="none"/></svg>
+  <svg class="test-corner tc-br" viewBox="0 0 30 30" aria-hidden="true"><path d="M28 10 Q28 28 10 28" stroke="#ddd" stroke-width="1.6" fill="none"/></svg>
+  <div class="wrap">
+    <h2>Real Revenue Impact for Our Clients</h2>
+    <p class="sub">2X Services: Google My Business, Direct Marketing, Content Marketing, Advertising Active Campaign</p>
+    <div class="test-card-wrap">
+      <div class="test-card" id="testCard" aria-live="polite">
+        <span class="quote-mark">JOHN BALL</span>
+        <div class="role">President | Automotive Solutions LLC</div>
+        <p class="quote">"Terry's team delivered everything promised – their AI-powered marketing strategies and relentless work ethic transformed our lead generation. Highly recommend for any service business!"</p>
+        <div class="stars">★★★★★</div>
+      </div>
+    </div>
+    <div class="test-arrows"><button type="button" id="tPrev" aria-label="Previous testimonial">&#8249;</button><button type="button" id="tNext" aria-label="Next testimonial">&#8250;</button></div>
+  </div>
+</section>
+
+<section class="blog-sec">
+  <div class="wrap">
+    <h2>Blogs</h2>
+    <div class="blog-grid">
+      <div class="blog-card">
+        <h4>SEARCH ENGINE OPTIMIZATION</h4>
+        <p>Develop targeted content strategies to attract and engage your audience</p>
+        <span class="lm">LEARN MORE →</span>
+      </div>
+      <div class="blog-card">
+        <h4>LOCAL SEARCH</h4>
+        <p>We help brands stand out through aweful, elegant visual design. Our design mainly philosophy.</p>
+        <span class="lm">LEARN MORE →</span>
+      </div>
+      <div class="blog-card">
+        <h4>SOCIAL MEDIA</h4>
+        <p>Elevate your brand with strategic social media management</p>
+        <span class="lm">LEARN MORE →</span>
+      </div>
+      <div class="blog-card">
+        <h4>GOOGLE ADS</h4>
+        <p>Maximize ROI with precision Google Ads campaigns</p>
+        <span class="lm">LEARN MORE →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact-sec" id="contact">
+  <div class="wrap">
+    <h2>Ready to Innovate with ForwardSols?</h2>
+    <p>Complete the form, and our team will reach out to discuss how we can create custom software solutions to meet your business needs.</p>
+    <a href="tel:+10000000000" class="phone-cta">📞 Contact Us Now</a>
+    <form id="contactForm">
+      <div class="field">
+        <label for="fullName" class="sr-only">Full name</label>
+        <input type="text" id="fullName" name="fullName" placeholder="Full name" autocomplete="name" required>
+      </div>
+      <div class="field">
+        <label for="companyName" class="sr-only">Company name</label>
+        <input type="text" id="companyName" name="companyName" placeholder="Company name" autocomplete="organization">
+      </div>
+      <div class="field">
+        <label for="businessEmail" class="sr-only">Business email</label>
+        <input type="email" id="businessEmail" name="businessEmail" placeholder="Business email" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="phoneNumber" class="sr-only">Phone number</label>
+        <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Phone number" autocomplete="tel">
+      </div>
+      <div class="field">
+        <label for="jobTitle" class="sr-only">Job title</label>
+        <input type="text" id="jobTitle" name="jobTitle" placeholder="Job title" autocomplete="organization-title">
+      </div>
+      <div class="field">
+        <label for="hearAbout" class="sr-only">How did you hear about us?</label>
+        <input type="text" id="hearAbout" name="hearAbout" placeholder="How did you hear about us?">
+      </div>
+      <p class="form-note">Your privacy is important to us. All information submitted through this form will be kept confidential and secure. We will not share your details with third parties without your consent.</p>
+      <button type="submit" class="bracket-btn verify-btn">VERIFY EMAIL</button>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="connect-badge">CONNECT<br>NOW</div>
+    </div>
+    <div class="wordmark-row">
+      <span class="serif">Let's</span>
+      <svg viewBox="0 0 900 160" aria-hidden="true">
+        <text x="0" y="130" font-family="Space Grotesk" font-weight="700" font-size="150" fill="#fff">F</text>
+        <text x="88" y="130" font-family="Space Grotesk" font-weight="700" font-size="150" fill="#fff">OR</text>
+        <path d="M330 60 Q 355 130 385 60 T 445 60 T 505 60" stroke="#fff" stroke-width="26" fill="none" stroke-linecap="round"/>
+        <text x="540" y="130" font-family="Space Grotesk" font-weight="700" font-size="150" fill="#fff">RD</text>
+      </svg>
+    </div>
+    <div class="wordmark-row">
+      <span class="serif right">Together</span>
+    </div>
+    <ul class="footer-links">
+      <li>Industries</li><li>Locations</li><li>Facebook</li><li>Instagram</li><li>Linkedin</li>
+    </ul>
+    <div class="footer-bottom">
+      <span>© 2025 Forward Sols</span>
+      <span>Powered by: <b>forwardsols Developers</b></span>
+      <span>We also develop software: <b>www.forwardsols.com</b></span>
+    </div>
+  </div>
+</footer>
+
+<div class="slide-cursor" id="slideCursor" aria-hidden="true"></div>
+`;
+})();
+
